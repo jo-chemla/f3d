@@ -31,18 +31,15 @@ endforeach()
 
 set(classes
   F3DLog
-  F3DColoringInfoHandler
   vtkF3DCachedLUTTexture
   vtkF3DCachedSpecularTexture
   vtkF3DConsoleOutputWindow
   vtkF3DDropZoneActor
-  vtkF3DExternalRenderWindow
   vtkF3DGenericImporter
   vtkF3DHexagonalBokehBlurPass
   vtkF3DInteractorEventRecorder
   vtkF3DInteractorStyle
   vtkF3DMemoryMesh
-  vtkF3DMetaImporter
   vtkF3DNoRenderWindow
   vtkF3DObjectFactory
   vtkF3DOpenGLGridMapper
@@ -50,6 +47,7 @@ set(classes
   vtkF3DPostProcessFilter
   vtkF3DRenderPass
   vtkF3DRenderer
+  vtkF3DRendererWithColoring
   vtkF3DUserRenderPass
   )
 
@@ -62,14 +60,8 @@ if(NOT VTK_VERSION VERSION_GREATER_EQUAL 9.2.20220907)
   set(classes ${classes} vtkF3DOrientationMarkerWidget)
 endif()
 
-if(WIN32)
-  list(APPEND classes vtkF3DWin32OutputWindow vtkF3DWGLRenderWindow)
-endif()
-
-# In theory the test should be `if (VTK_USE_X)` but this variable is
-# only exported starting from VTK 9.4
-if(UNIX AND NOT APPLE AND NOT EMSCRIPTEN AND NOT ANDROID)
-  list(APPEND classes vtkF3DGLXRenderWindow)
+if(WIN32 AND F3D_WINDOWS_GUI)
+  list(APPEND classes vtkF3DWin32OutputWindow)
 endif()
 
 if(ANDROID)

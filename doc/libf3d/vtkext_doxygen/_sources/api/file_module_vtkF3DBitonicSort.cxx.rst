@@ -56,9 +56,7 @@ Includes
 
 - ``vtkShaderProgram.h``
 
-- ``vtkVersion.h``
-
-- ``vtk_glad.h``
+- ``vtk_glew.h``
 
 
 

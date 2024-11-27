@@ -11,27 +11,21 @@
 #ifndef vtkF3DRenderer_h
 #define vtkF3DRenderer_h
 
-#include "vtkF3DMetaImporter.h"
-
 #include <vtkLight.h>
 #include <vtkOpenGLRenderer.h>
 
 #include <map>
-#include <optional>
 
-class vtkColorTransferFunction;
 class vtkCornerAnnotation;
 class vtkF3DDropZoneActor;
 class vtkImageReader2;
 class vtkOrientationMarkerWidget;
-class vtkScalarBarActor;
 class vtkSkybox;
 class vtkTextActor;
 
 class vtkF3DRenderer : public vtkOpenGLRenderer
 {
 public:
-  static vtkF3DRenderer* New();
   vtkTypeMacro(vtkF3DRenderer, vtkOpenGLRenderer);
 
   ///@{
@@ -40,7 +34,7 @@ public:
    */
   void ShowAxis(bool show);
   void ShowGrid(bool show);
-  void ShowEdge(const std::optional<bool>& show);
+  void ShowEdge(bool show);
   void ShowTimer(bool show);
   void ShowMetaData(bool show);
   void ShowFilename(bool show);
@@ -54,17 +48,18 @@ public:
   /**
    * Set different actors parameters
    */
-  void SetLineWidth(const std::optional<double>& lineWidth);
-  void SetPointSize(const std::optional<double>& pointSize);
-  void SetFontFile(const std::optional<std::string>& fontFile);
-  void SetHDRIFile(const std::optional<std::string>& hdriFile);
+  void SetLineWidth(double lineWidth);
+  void SetPointSize(double pointSize);
+  void SetFontFile(const std::string& fontFile);
+  void SetHDRIFile(const std::string& hdriFile);
   void SetUseImageBasedLighting(bool use) override;
   void SetBackground(const double* backgroundColor) override;
   void SetLightIntensity(const double intensity);
   void SetFilenameInfo(const std::string& info);
+  void SetAnimationnameInfo(const std::string& info);
   void SetDropZoneInfo(const std::string& info);
   void SetGridAbsolute(bool absolute);
-  void SetGridUnitSquare(const std::optional<double>& unitSquare);
+  void SetGridUnitSquare(double unitSquare);
   void SetGridSubdivisions(int subdivisions);
   void SetGridColor(const std::vector<double>& color);
   ///@}
@@ -82,16 +77,15 @@ public:
   void SetUseBlurBackground(bool use);
   void SetBlurCircleOfConfusionRadius(double radius);
   void SetRaytracingSamples(int samples);
-  void SetBackfaceType(const std::optional<std::string>& backfaceType);
-  void SetFinalShader(const std::optional<std::string>& finalShader);
+  void SetBackfaceType(const std::string& backfaceType);
+  void SetFinalShader(const std::string& finalShader);
   ///@}
 
+  ///@{
   /**
    * Set SetUseOrthographicProjection
    */
-  void SetUseOrthographicProjection(const std::optional<bool>& use);
-
-  ///@{
+  void SetUseOrthographicProjection(bool use);
   /**
    * Set/Get UseTrackball
    */
@@ -110,6 +104,7 @@ public:
   /**
    * Reimplemented to configure:
    *  - ActorsProperties
+   *  - CheatSheet
    *  - Timer
    * before actual rendering, only when needed
    */
@@ -121,15 +116,10 @@ public:
   void ResetCameraClippingRange() override;
 
   /**
-   * Set properties on each imported actors and also configure the coloring
-   * Then update dedicated actors and logics according to the properties of this class:
-   *  - HDRI
-   *  - MetaData
-   *  - Texts
-   *  - RenderPasses
+   * Update actors according to the properties of this class:
    *  - Grid
    */
-  void UpdateActors();
+  virtual void UpdateActors();
 
   /**
    * Reimplemented to handle light creation when no lights are added
@@ -141,12 +131,7 @@ public:
    * Initialize the renderer actors and flags.
    * Should be called after being added to a vtkRenderWindow.
    */
-  void Initialize();
-
-  /**
-   * Initialize actors properties related to the up vector using the provided upString, including the camera
-   */
-  void InitializeUpVector(const std::string& upString);
+  virtual void Initialize(const std::string& up);
 
   /**
    * Get the OpenGL skybox
@@ -156,9 +141,8 @@ public:
   /**
    * Return description about the current rendering status
    * Currently contains information about the camera and the grid if any
-   * Returns a multiline string containing the scene description
    */
-  std::string GetSceneDescription();
+  virtual std::string GetSceneDescription();
 
   /**
    * Get up vector
@@ -175,201 +159,7 @@ public:
    */
   void SetCachePath(const std::string& cachePath);
 
-  /**
-   * Set the roughness on all actors
-   */
-  void SetRoughness(const std::optional<double>& roughness);
-
-  /**
-   * Set the surface color on all actors
-   */
-  void SetSurfaceColor(const std::optional<std::vector<double>>& color);
-
-  /**
-   * Set the emmissive factors on all actors
-   */
-  void SetEmissiveFactor(const std::optional<std::vector<double>>& factors);
-
-  /**
-   * Set the opacity on all actors
-   */
-  void SetOpacity(const std::optional<double>& opacity);
-
-  /**
-   * Set the metallic on all actors
-   */
-  void SetMetallic(const std::optional<double>& metallic);
-
-  /**
-   * Set the normal scale on all actors
-   */
-  void SetNormalScale(const std::optional<double>& normalScale);
-
-  /**
-   * Set the material capture texture on all actors.
-   * This texture includes baked lighting effect,
-   * so all other material textures are ignored.
-   */
-  void SetTextureMatCap(const std::optional<std::string>& tex);
-
-  /**
-   * Set the base color texture on all actors
-   */
-  void SetTextureBaseColor(const std::optional<std::string>& tex);
-
-  /**
-   * Set the material texture on all actors
-   */
-  void SetTextureMaterial(const std::optional<std::string>& tex);
-
-  /**
-   * Set the emissive texture on all actors
-   */
-  void SetTextureEmissive(const std::optional<std::string>& tex);
-
-  /**
-   * Set the normal texture on all actors
-   */
-  void SetTextureNormal(const std::optional<std::string>& tex);
-
-  enum class SplatType
-  {
-    SPHERE,
-    GAUSSIAN
-  };
-
-  /**
-   * Set the point sprites size and the splat type on the pointGaussianMapper
-   */
-  void SetPointSpritesProperties(SplatType splatType, double pointSpritesSize);
-
-  /**
-   * Set the visibility of the scalar bar.
-   * It will only be shown when coloring and not shown
-   * when using direct scalars rendering.
-   */
-  void ShowScalarBar(bool show);
-
-  /**
-   * Set the visibility of the point sprites actor.
-   * It will only be shown if raytracing and volume are not enabled
-   */
-  void SetUsePointSprites(bool use);
-
-  /**
-   * Set the visibility of the volume actor.
-   * It will only be shown if the data is compatible with volume rendering
-   * and raytracing is not enabled
-   */
-  void SetUseVolume(bool use);
-
-  /**
-   * Set the use of an inverted opacity function
-   * for volume rendering..
-   */
-  void SetUseInverseOpacityFunction(bool use);
-
-  /**
-   * Set the range of the scalar bar
-   * Setting an empty vector will use automatic range
-   */
-  void SetScalarBarRange(const std::optional<std::vector<double>>& range);
-
-  /**
-   * Set the colormap to use
-   * Setting an empty vector will use default color map
-   */
-  void SetColormap(const std::vector<double>& colormap);
-
-  /**
-   * Set the meta importer to recover coloring information from
-   */
-  void SetImporter(vtkF3DMetaImporter* importer);
-
-  ///@{
-  /**
-   * Set/Get if coloring is enabled
-   */
-  void SetEnableColoring(bool enable);
-  vtkGetMacro(EnableColoring, bool);
-  ///@}
-
-  ///@{
-  /**
-   * Set/Get if using point or cell data coloring
-   */
-  void SetUseCellColoring(bool useCell);
-  vtkGetMacro(UseCellColoring, bool);
-  ///@}
-
-  ///@{
-  /**
-   * Set/Get the name of the array to use for coloring
-   */
-  void SetArrayNameForColoring(const std::optional<std::string>& arrayName);
-  std::optional<std::string> GetArrayNameForColoring();
-  ///@}
-
-  ///@{
-  /**
-   * Set/Get the name of the component to use for coloring
-   */
-  void SetComponentForColoring(int component);
-  vtkGetMacro(ComponentForColoring, int);
-  ///@}
-
-  /**
-   * Get information about the current coloring
-   * Returns a single line string containing the coloring description
-   */
-  virtual std::string GetColoringDescription();
-
-  /**
-   * Switch between point data and cell data coloring, actually setting UseCellColoring member.
-   * This can trigger CycleArrayForColoring if current array is not valid.
-   */
-  void CycleFieldForColoring();
-
-  /**
-   * Cycle the current array for coloring, actually setting EnableColoring and ArrayNameForColoring members.
-   * This loops back to not coloring if volume is not enabled.
-   * This can trigger CycleComponentForColoring if current component is not valid.
-   */
-  void CycleArrayForColoring();
-
-  /**
-   * Cycle the component in used for rendering
-   * looping back to direct scalars
-   */
-  void CycleComponentForColoring();
-
-  /**
-   * Convert a component index into a string
-   * If there is a component name defined in the current coloring information, display it.
-   * Otherwise, use component #index as the default value.
-   */
-  std::string ComponentToString(int component);
-
-  /**
-   * Return true if the cheatsheet info is potentially
-   * out of date since the last ConfigureCheatSheet call,
-   * false otherwise.
-   */
-  bool CheatSheetNeedsUpdate() const;
-
-  /**
-   * Configure the cheatsheet text from the provided info
-   * Should be called before Render() if CheatSheetInfoNeedsUpdate() returns true.
-   */
-  void ConfigureCheatSheet(const std::string& info);
-
-  /**
-   * Use this method to flag in the renderer that the cheatsheet needs to be updated
-   * This is not required to call when using any of the setter of the renderer
-   */
-  void SetCheatSheetConfigured(bool flag);
-
-private:
+protected:
   vtkF3DRenderer();
   ~vtkF3DRenderer() override;
 
@@ -410,9 +200,17 @@ private:
   ///@}
 
   /**
-   * Configure all actors properties
+   * Configure all actors properties according to what has been set for:
+   * - point size
+   * - line width
+   * - show edges
    */
   void ConfigureActorsProperties();
+
+  /**
+   * Configure the cheatsheet text and mark it for rendering
+   */
+  void ConfigureCheatSheet();
 
   /**
    * Configure the grid
@@ -425,11 +223,15 @@ private:
   void ConfigureRenderPasses();
 
   /**
-   * Generate a padded metadata description
-   * using the internal importer.
-   * Returns a multiline string containing the meta data description
+   * Add related hotkeys options to the cheatsheet.
+   * Override to add other hotkeys
    */
-  std::string GenerateMetaDataDescription();
+  virtual void FillCheatSheetHotkeys(std::stringstream& sheet);
+
+  /**
+   * Override to generate a data description
+   */
+  virtual std::string GenerateMetaDataDescription() = 0;
 
   /**
    * Create a cache directory if a HDRIHash is set
@@ -437,36 +239,11 @@ private:
   void CreateCacheDirectory();
 
   /**
-   * Configure coloring for all actors
+   * Shorten a provided name with "..."
    */
-  void ConfigureColoring();
+  static std::string ShortName(const std::string& name, int maxChar);
 
-  /**
-   * Convenience method for configuring a poly data mapper for coloring
-   * Return true if mapper was configured for coloring, false otherwise.
-   */
-  static bool ConfigureMapperForColoring(vtkPolyDataMapper* mapper, const std::string& name,
-    int component, vtkColorTransferFunction* ctf, double range[2], bool cellFlag = false);
-
-  /**
-   * Convenience method for configuring a volume mapper and volume prop for coloring
-   * Return true if they were configured for coloring, false otherwise.
-   */
-  static bool ConfigureVolumeForColoring(vtkSmartVolumeMapper* mapper, vtkVolume* volume,
-    const std::string& name, int component, vtkColorTransferFunction* ctf, double range[2],
-    bool cellFlag = false, bool inverseOpacityFlag = false);
-
-  /**
-   * Convenience method for configuring a scalar bar actor for coloring
-   */
-  void ConfigureScalarBarActorForColoring(vtkScalarBarActor* scalarBar, std::string arrayName,
-    int component, vtkColorTransferFunction* ctf);
-
-  /**
-   * Configure internal range and color transfer function according to provided
-   * coloring info
-   */
-  void ConfigureRangeAndCTFForColoring(const F3DColoringInfoHandler::ColoringInfo& info);
+  vtkNew<vtkCamera> InitialCamera;
 
   vtkSmartPointer<vtkOrientationMarkerWidget> AxisWidget;
 
@@ -499,7 +276,7 @@ private:
   bool GridVisible = false;
   bool GridAbsolute = false;
   bool AxisVisible = false;
-  std::optional<bool> EdgeVisible;
+  bool EdgeVisible = false;
   bool TimerVisible = false;
   bool FilenameVisible = false;
   bool MetaDataVisible = false;
@@ -513,7 +290,7 @@ private:
   bool UseSSAOPass = false;
   bool UseToneMappingPass = false;
   bool UseBlurBackground = false;
-  std::optional<bool> UseOrthographicProjection = false;
+  bool UseOrthographicProjection = false;
   bool UseTrackball = false;
   bool InvertZoom = false;
 
@@ -522,13 +299,13 @@ private:
   double UpVector[3] = { 0.0, 1.0, 0.0 };
   double RightVector[3] = { 1.0, 0.0, 0.0 };
   double CircleOfConfusionRadius = 20.0;
-  std::optional<double> PointSize;
-  std::optional<double> LineWidth;
-  std::optional<double> GridUnitSquare;
+  double PointSize = 10.0;
+  double LineWidth = 1.0;
+  double GridUnitSquare = 0.0;
   int GridSubdivisions = 10;
   double GridColor[3] = { 0.0, 0.0, 0.0 };
 
-  std::optional<std::string> HDRIFile;
+  std::string HDRIFile;
   vtkSmartPointer<vtkImageReader2> HDRIReader;
   bool HasValidHDRIReader = false;
   bool UseDefaultHDRI = false;
@@ -540,7 +317,7 @@ private:
   bool HasValidHDRISH = false;
   bool HasValidHDRISpec = false;
 
-  std::optional<std::string> FontFile;
+  std::string FontFile;
 
   double LightIntensity = 1.0;
   std::map<vtkLight*, double> OriginalLightIntensities;
@@ -549,49 +326,10 @@ private:
   std::string GridInfo;
 
   std::string CachePath;
+  std::string AnimationNameInfo;
 
-  std::optional <std::string> BackfaceType;
-  std::optional <std::string> FinalShader;
-
-  vtkF3DMetaImporter* Importer = nullptr;
-  vtkMTimeType ImporterTimeStamp = 0;
-
-  vtkNew<vtkScalarBarActor> ScalarBarActor;
-  bool ScalarBarActorConfigured = false;
-
-  bool ColoringMappersConfigured = false;
-  bool PointSpritesMappersConfigured = false;
-  bool VolumePropsAndMappersConfigured = false;
-  bool ColoringConfigured = false;
-
-  std::optional<double> Opacity;
-  std::optional<double> Roughness;
-  std::optional<double> Metallic;
-  std::optional<double> NormalScale;
-  std::optional<std::vector<double>> SurfaceColor;
-  std::optional<std::vector<double>> EmissiveFactor;
-  std::optional<std::string> TextureMatCap;
-  std::optional<std::string> TextureBaseColor;
-  std::optional<std::string> TextureMaterial;
-  std::optional<std::string> TextureEmissive;
-  std::optional<std::string> TextureNormal;
-
-  vtkSmartPointer<vtkColorTransferFunction> ColorTransferFunction;
-  double ColorRange[2] = { 0.0, 1.0 };
-  bool ColorTransferFunctionConfigured = false;
-
-  bool EnableColoring = false;
-  bool UseCellColoring = false;
-  int ComponentForColoring = -1;
-  std::optional<std::string> ArrayNameForColoring;
-
-  bool ScalarBarVisible = false;
-  bool UsePointSprites = false;
-  bool UseVolume = false;
-  bool UseInverseOpacityFunction = false;
-
-  std::optional<std::vector<double>> UserScalarBarRange;
-  std::vector<double> Colormap;
+  std::string BackfaceType = "default";
+  std::string FinalShader;
 };
 
 #endif

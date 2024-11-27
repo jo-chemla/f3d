@@ -9,7 +9,7 @@ F3D (pronounced `/fɛd/`) is a fast and minimalist 3D viewer desktop application
 
 It is fully controllable from the command line and support configuration files. It can provide thumbnails, support interactive hotkeys, drag&drop and integration into file managers.
 
-F3D also contains the libf3d, a simple library to render meshes, with a C++17 API, Python Bindings, and experimental Java and Javascript bindings.
+F3D also contains the libf3d, a simple library to render meshes, with C++ and Python Bindings, as well as experimental Java and Javascript bindings.
 
 <img src="https://user-images.githubusercontent.com/3129530/194735416-3f386437-456c-4145-9b5e-6bb6451d7e9a.png" width="640">
 
@@ -31,14 +31,24 @@ If you need any help or want to discuss with other F3D users and developers, hea
 
 # Quickstart
 
-Open a file directly in F3D or from the command line by running:
+Open a file and visualize it interactively:
+
 ```
 f3d /path/to/file.ext
-``` 
+```
 
-Optionally, append `--output=/path/to/img.png` to save the rendering into an image file.
+Open a file and save the rendering into an image file:
 
-See the [Quickstart Guide](doc/user/QUICKSTART.md) for more information about getting started with F3D.
+```
+f3d /path/to/file.ext --output=/path/to/img.png
+```
+
+Get help:
+
+```
+f3d --help
+man f3d # Linux only
+```
 
 # Documentation
 

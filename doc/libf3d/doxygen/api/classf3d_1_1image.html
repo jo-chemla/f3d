@@ -132,8 +132,6 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="library_root.html">Library API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="namespace_f3d.html">Namespace f3d</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structf3d_1_1camera__state__t.html">Struct camera_state_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1context_1_1loading__exception.html">Struct context::loading_exception</a></li>
-<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1context_1_1symbol__exception.html">Struct context::symbol_exception</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structf3d_1_1engine_1_1libInformation.html">Struct engine::libInformation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structf3d_1_1engine_1_1no__interactor__exception.html">Struct engine::no_interactor_exception</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structf3d_1_1engine_1_1no__window__exception.html">Struct engine::no_window_exception</a></li>
@@ -142,24 +140,20 @@
 <li class="toctree-l2"><a class="reference internal" href="structf3d_1_1image_1_1metadata__exception.html">Struct image::metadata_exception</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structf3d_1_1image_1_1read__exception.html">Struct image::read_exception</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structf3d_1_1image_1_1write__exception.html">Struct image::write_exception</a></li>
-<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1interaction__bind__t.html">Struct interaction_bind_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1interactor_1_1already__exists__exception.html">Struct interactor::already_exists_exception</a></li>
-<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1interactor_1_1command__runtime__exception.html">Struct interactor::command_runtime_exception</a></li>
-<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1interactor_1_1does__not__exists__exception.html">Struct interactor::does_not_exists_exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1loader_1_1load__failure__exception.html">Struct loader::load_failure_exception</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structf3d_1_1mesh__t.html">Struct mesh_t</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1options_1_1incompatible__exception.html">Struct options::incompatible_exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1options_1_1inexistent__exception.html">Struct options::inexistent_exception</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structf3d_1_1point3__t.html">Struct point3_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1scene_1_1load__failure__exception.html">Struct scene::load_failure_exception</a></li>
-<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1utils_1_1tokenize__exception.html">Struct utils::tokenize_exception</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structf3d_1_1vector3__t.html">Struct vector3_t</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classf3d_1_1camera.html">Class camera</a></li>
-<li class="toctree-l2"><a class="reference internal" href="classf3d_1_1context.html">Class context</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classf3d_1_1engine.html">Class engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="class_structf3d_1_1exception.html">Class exception</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Class image</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classf3d_1_1interactor.html">Class interactor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classf3d_1_1loader.html">Class loader</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classf3d_1_1log.html">Class log</a></li>
-<li class="toctree-l2"><a class="reference internal" href="classf3d_1_1ratio__t.html">Class ratio_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="classf3d_1_1scene.html">Class scene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classf3d_1_1options.html">Class options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classf3d_1_1utils.html">Class utils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classf3d_1_1window.html">Class window</a></li>
 <li class="toctree-l2"><a class="reference internal" href="typedef_types_8h_1a62f3e15e4e18455b52854622b27c02ed.html">Typedef f3d::angle_deg_t</a></li>
@@ -572,7 +566,7 @@ document.write(`
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK3f3d5image7compareERK5imagedRd">
 <span id="_CPPv3NK3f3d5image7compareERK5imagedRd"></span><span id="_CPPv2NK3f3d5image7compareERK5imagedRd"></span><span id="f3d::image::compare__imageCR.double.doubleRC"></span><span class="target" id="classf3d_1_1image_1a9e3f22780c719f2ada05905e42c056f0"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compare</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N3f3d5imageE" title="f3d::image"><span class="n"><span class="pre">image</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">reference</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">threshold</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">error</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK3f3d5image7compareERK5imagedRd" title="Permalink to this definition">#</a><br /></dt>
-<dd><p>Compare current image to a reference using the provided threshold. If the comparison fails, ie. error is higher than the threshold, this outputs the resulting diff and error and return false, return true otherwise. The error is minimum between Minkownski and Wasserstein distance on a SSIM computation, as specified in VTK. Please note, due to possible arithmetic imprecision in the SSIM computation using a threshold of zero may return false with identical images. Depending on the VTK version, another comparison algorithm may be used. Threshold should be in range [0, 1[, this returns false otherwise. 1e-14: Pixel perfect comparison. 0.05: Visually indistinguishable. 0.1: Small visible difference. 0.5: Comparable images. 1.0: Different type, size or number of components </p>
+<dd><p>Compare current image to a reference using the provided threshold. If the comparison fails, ie. error is higher than the threshold, this outputs the resulting diff and error and return false, return true otherwise. The error is minimum between Minkownski and Wasserstein distance on a SSIM computation, as specified in VTK. Please note, due to possible arithmetic imprecision in the SSIM computation using a threshold of zero may return false with identical images. Depending on the VTK version, another comparison algorithm may be used. 1e-14: Pixel perfect comparison. 0.05: Visually indistinguishable. 0.1: Small visible difference. 0.5: Comparable images. 1.0: Different type, size or number of components </p>
 </dd></dl>
 
 <dl class="cpp function">
