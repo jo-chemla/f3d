@@ -1,15 +1,15 @@
-.. _exhale_struct_structf3d_1_1loader_1_1load__failure__exception:
+.. _exhale_struct_structf3d_1_1utils_1_1tokenize__exception:
 
-Struct loader::load_failure_exception
-=====================================
+Struct utils::tokenize_exception
+================================
 
-- Defined in :ref:`file_public_loader.h`
+- Defined in :ref:`file_public_utils.h`
 
 
 Nested Relationships
 --------------------
 
-This struct is a nested type of :ref:`exhale_class_classf3d_1_1loader`.
+This struct is a nested type of :ref:`exhale_class_classf3d_1_1utils`.
 
 
 Inheritance Relationships
@@ -25,7 +25,7 @@ Struct Documentation
 --------------------
 
 
-.. doxygenstruct:: f3d::loader::load_failure_exception
+.. doxygenstruct:: f3d::utils::tokenize_exception
    :project: libf3d
    :members:
    :protected-members:
